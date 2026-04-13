@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alibi Roulette: JHS Edition</title>
+    <style>
+        body { font-family: 'Arial Black', sans-serif; background-color: #000; color: #fff; text-align: center; padding: 20px; overflow-x: hidden; }
+        .container { max-width: 700px; margin: 0 auto; border: 8px solid #ffd700; padding: 20px; border-radius: 20px; background: #222; }
+        
+        /* The Flashy Bits */
+        h1 { font-size: 3rem; color: #ff0000; text-shadow: 3px 3px #fff; margin: 10px; }
+        .status-badge { font-size: 1.5rem; padding: 10px; border-radius: 50px; display: inline-block; margin-bottom: 20px; text-transform: uppercase; }
+        .innocent { background: #00ff00; color: #000; }
+        .sus { background: #ff0000; color: #fff; animation: blink 0.5s infinite; }
+
+        .card {
+            background: #fff; color: #000; padding: 30px; border-radius: 15px;
+            font-size: 2rem; min-height: 120px; display: flex; flex-direction: column;
+            justify-content: center; transition: 0.3s; border: 5px solid #444;
+        }
+
+        .sentence-helper { font-size: 1.8rem; margin: 25px 0; color: #00d4ff; }
+        .verb-ing { color: #ff00ff; text-decoration: underline; }
+
+        button {
+            background: #ffd700; color: #000; border: none; padding: 20px 40px;
+            font-size: 1.5rem; font-weight: bold; border-radius: 50px; cursor: pointer;
+            box-shadow: 0 5px #b8860b; margin-bottom: 20px;
+        }
+        button:active { box-shadow: 0 2px #b8860b; transform: translateY(4px); }
+
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+        .police-siren { font-size: 4rem; position: absolute; top: 10px; left: 10px; animation: blink 0.2s infinite; }
+    </style>
+</head>
+<body>
+
+<div class="police-siren">🚨</div>
+<div class="container">
+    <h1>ALIBI ROULETTE</h1>
+    <p>The <b>DIAMOND HAMSTER</b> was stolen at 8:00 PM!</p>
+    
+    <div id="status" class="status-badge innocent">Status: Innocent?</div>
+
+    <div class="card" id="card-content">READY TO TESTIFY?</div>
+
+    <div class="sentence-helper">
+        "I <span id="verb-spot">was ...ing</span> <span id="obj-spot">...</span>."
+    </div>
+
+    <button onclick="spinRoulette()">🚨 GET ALIBI 🚨</button>
+    
+    <div style="margin-top: 20px;">
+        <p><i>Teacher: If the status says <b>SUSPICIOUS</b>, the class must shout "LIAR!" if the student makes one grammar mistake!</i></p>
+    </div>
+</div>
+
+<script>
+    const data = [
+        {v: "eat", o: "extra spicy ramen"}, {v: "dance", o: "to K-Pop"},
+        {v: "sleep", o: "on the floor"}, {v: "talk", o: "to a cat"},
+        {v: "play", o: "Roblox"}, {v: "study", o: "with a ghost"},
+        {v: "clean", o: "the bathroom"}, {v: "watch", o: "scary movies"},
+        {v: "run", o: "from a bear"}, {v: "sing", o: "in the shower"}
+    ];
+
+    function spinRoulette() {
+        const statusBox = document.getElementById('status');
+        const card = document.getElementById('card-content');
+        
+        // Random Suspect Logic
+        const isSus = Math.random() > 0.7; 
+        statusBox.className = isSus ? 'status-badge sus' : 'status-badge innocent';
+        statusBox.innerText = isSus ? '⚠️ SUSPICIOUS! ⚠️' : '✅ Status: Innocent';
+
+        // Pick Random Alibi
+        const choice = data[Math.floor(Math.random() * data.length)];
+        
+        card.innerHTML = `<span style="font-size: 1rem">YOU WERE...</span><br>${choice.v.toUpperCase()}ING ${choice.o.toUpperCase()}`;
+        
+        document.getElementById('verb-spot').innerHTML = `was <span class="verb-ing">${choice.v}ing</span>`;
+        document.getElementById('obj-spot').innerText = choice.o;
+
+        // Fun Visual Shake
+        card.style.background = isSus ? "#ffcccc" : "#fff";
+    }
+</script>
+
+</body>
+</html>
